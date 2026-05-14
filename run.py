@@ -13,17 +13,19 @@ def init(colorName):
 def render():
     glClear(GL_COLOR_BUFFER_BIT)
 
+def get_cursor_pos(window):
+    mouse_x, mouse_y = glfw.get_cursor_pos(window)
+    mouse_x = (mouse_x / 800) * 2 - 1
+    mouse_y = -((mouse_y / 600) * 2 - 1)
+
+    return mouse_x, mouse_y
+
 
 def main():
     glfw.init()
     window = glfw.create_window(800, 600, "Mini Paint", None, None)
     glfw.make_context_current(window)
-
-    # teste ok
     buttons = set_buttons(8, .15, .1)
-
-    ateste = Botao(-0.90, 0.90, -0.75, 0.80, None, None, 'laranja')
-    bteste = Botao(-0.65, 0.90, -0.50, 0.80, None, None, 'verde_oliva')
 
     init('fundo_claro')
     while not glfw.window_should_close(window):
