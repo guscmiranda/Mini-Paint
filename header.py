@@ -19,8 +19,8 @@ def draw_header():
 def set_buttons(quant, width, height):
     gaps = np.linspace(-.9, .75, quant)
     buttons = []
-    for g in gaps:
-        button = Botao(g, 0.9, g+width, 0.9 - height, None, None, 'laranja')
+    for i, g in enumerate(gaps):
+        button = Botao(g, 0.9, g+width, 0.9 - height, None, None, 'laranja', str(i))
         buttons.append(button)
 
     return buttons

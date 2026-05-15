@@ -5,6 +5,9 @@ from Button import *
 import numpy as np
 from header import *
 
+WIDTH, HEIGHT = 800, 600
+# MOUSE_X, MOUSE_Y = 0, 0
+CURRENT_BUTTON = None
 
 def init(colorName):
     cor = COR[colorName]
@@ -15,10 +18,37 @@ def render():
 
 def get_cursor_pos(window):
     mouse_x, mouse_y = glfw.get_cursor_pos(window)
-    mouse_x = (mouse_x / 800) * 2 - 1
-    mouse_y = -((mouse_y / 600) * 2 - 1)
+    mouse_x = (mouse_x / WIDTH) * 2 - 1
+    mouse_y = -((mouse_y / HEIGHT) * 2 - 1)
 
     return mouse_x, mouse_y
+
+def get_click(window, buttons):
+    event = glfw.get_mouse_button(window, glfw.MOUSE_BUTTON_LEFT)
+
+    if event == glfw.PRESS:
+        x,y = get_cursor_pos(window)
+
+        botao_clicado = None
+
+        for b in buttons:
+            if b.clicked(x,y):
+                botao_clicado = b.key
+
+        if botao_clicado:
+            for b in buttons:
+
+                if b.key == botao_clicado:
+                    b.set_clicked()
+                else:
+                    b.set_not_clicked()
+
+            '''if b.clicked(x,y):
+                b.set_clicked()
+            else:
+                b.set_not_clicked()'''
+
+        print(f"clicou em {x}, {y}")
 
 
 def main():
@@ -32,6 +62,10 @@ def main():
         glfw.poll_events()
         render()
         draw_header()
+
+        MOUSE_X, MOUSE_Y = get_cursor_pos(window)
+        get_click(window, buttons)
+
         for b in buttons:
             b.draw()
 
