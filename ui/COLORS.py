@@ -31,4 +31,14 @@ COR = {
     # fundos agradáveis
     'fundo_escuro': (0.12, 0.12, 0.15, 1.0),
     'fundo_claro':  (0.93, 0.93, 0.90, 1.0),
+
+    # RGB suaves / modernas
+    'red': (0.90, 0.28, 0.25, 1.0),
+    'green': (0.22, 0.72, 0.38, 1.0),
+    'blue': (0.25, 0.50, 0.92, 1.0),
+
+    # CMY suaves / equilibradas
+    'cyan': (0.25, 0.82, 0.88, 1.0),
+    'magenta': (0.82, 0.35, 0.78, 1.0),
+    'yellow': (0.96, 0.82, 0.22, 1.0),
 }

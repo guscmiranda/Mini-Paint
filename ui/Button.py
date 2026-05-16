@@ -1,9 +1,9 @@
 from OpenGL.GL import *
-from COLORS import *
+from ui.COLORS import *
 
 
 class Botao:
-    def __init__(self,x_up, y_up, x_down, y_down, shade_path, action, main_color, key):
+    def __init__(self,x_up, y_up, x_down, y_down, shade_path, action, main_color):
         self.x_up = x_up
         self.y_up = y_up
         self.x_down = x_down
@@ -14,7 +14,6 @@ class Botao:
 
         self.main_color = COR[main_color]
         self.isClicked = False
-        self.key = key
 
     def update(self):
         pass
@@ -35,6 +34,9 @@ class Botao:
             return True
 
         return False
+
+    def get_action(self):
+        return self.action
 
     def draw(self):
         if self.isClicked:

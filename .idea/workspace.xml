@@ -5,16 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8990bb56-fd62-4fe6-beca-9e2ad43df99b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/core/canvas.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/run.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tools/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tools/brush.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tools/clean_canva.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tools/draw_figs.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tools/erase.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tools/paint_bucket.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tools/save_canva.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ui/header.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/COLORS.py" beforeDir="false" afterPath="$PROJECT_DIR$/COLORS.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/header.py" beforeDir="false" afterPath="$PROJECT_DIR$/header.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Button.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/Button.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/COLORS.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/COLORS.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/header.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" />
     </list>
-    <list id="52f16368-ca86-4266-937e-ce6a56f4db15" name="Changes by danbo" comment="">
-      <change beforePath="$PROJECT_DIR$/Button.py" beforeDir="false" afterPath="$PROJECT_DIR$/Button.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oi.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
-    </list>
+    <list id="39d60a9c-91e8-4bad-9a45-d07a4d4ba26b" name="Changes by danbo" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,41 +37,42 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/run.py">
-      <ranges>
-        <range start1="7" end1="7" start2="7" end2="10" changelist="8990bb56-fd62-4fe6-beca-9e2ad43df99b" />
-        <range start1="17" end1="19" start2="20" end2="22" changelist="8990bb56-fd62-4fe6-beca-9e2ad43df99b" />
-        <range start1="21" end1="21" start2="24" end2="51" changelist="52f16368-ca86-4266-937e-ce6a56f4db15" />
-        <range start1="34" end1="34" start2="64" end2="68" changelist="52f16368-ca86-4266-937e-ce6a56f4db15" />
-      </ranges>
-    </file>
-  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
 }</component>
   <component name="ProjectId" id="3DjHOT0KzxhT8pEtl8senYAlcRm" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python.Botao.executor&quot;: &quot;Run&quot;,
-    &quot;Python.header.executor&quot;: &quot;Run&quot;,
-    &quot;Python.run.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.Botao.executor": "Run",
+    "Python.clean_canva.executor": "Run",
+    "Python.draw_figs.executor": "Run",
+    "Python.header.executor": "Run",
+    "Python.run.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\projects\CG\Mini Paint\ui" />
+      <recent name="C:\projects\CG\Mini Paint\core" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -81,7 +89,9 @@
       <option name="presentableId" value="Default" />
       <updated>1778788526629</updated>
       <workItem from="1778788527701" duration="10889000" />
-      <workItem from="1778803253240" duration="4336000" />
+      <workItem from="1778803253240" duration="4409000" />
+      <workItem from="1778868915925" duration="14229000" />
+      <workItem from="1778886935537" duration="8646000" />
     </task>
     <servers />
   </component>
@@ -100,8 +110,10 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Mini_Paint$header.coverage" NAME="header Coverage Results" MODIFIED="1778801935824" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Mini_Paint$header.coverage" NAME="header Coverage Results" MODIFIED="1778890940038" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ui" />
     <SUITE FILE_PATH="coverage/Mini_Paint$Botao.coverage" NAME="Botao Coverage Results" MODIFIED="1778792983371" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Mini_Paint$run.coverage" NAME="run Coverage Results" MODIFIED="1778807204612" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Mini_Paint$draw_figs.coverage" NAME="draw_figs Coverage Results" MODIFIED="1778893238520" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
+    <SUITE FILE_PATH="coverage/Mini_Paint$run.coverage" NAME="run Coverage Results" MODIFIED="1778895605796" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/core" />
+    <SUITE FILE_PATH="coverage/Mini_Paint$clean_canva.coverage" NAME="clean_canva Coverage Results" MODIFIED="1778889149930" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
   </component>
 </project>
