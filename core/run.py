@@ -1,6 +1,7 @@
 from ui.header import *
 from canvas import *
 from tools import *
+from core.constants import *
 
 
 WIDTH, HEIGHT = 800, 600
@@ -14,7 +15,8 @@ CANVAS_HEIGHT = 510
 CURRENT_ROW_MOUSE_ON = 0
 CURRENT_COL_MOUSE_ON = 0
 
-LIKE_STARTED = None
+SHAPE_START = None
+LAST_MOUSE_STATE = glfw.RELEASE
 
 BACKGROUND_COLOR = 'fundo_claro'
 
@@ -71,58 +73,189 @@ def set_current_button(action):
 
 
 def handle_click(window, buttons):
-    event = glfw.get_mouse_button(window, glfw.MOUSE_BUTTON_LEFT)
 
-    if event == glfw.PRESS:
-        x,y = get_cursor_pos(window)
+    global LAST_MOUSE_STATE
 
-        # TODO: se clique no header chama handle_click_header() senão, handler_click_canvas()
-        #--- Lidando com botões
-        botao_clicado = None
+    current_state = glfw.get_mouse_button(
+        window,
+        glfw.MOUSE_BUTTON_LEFT
+    )
+
+    # -----------------------------
+    # EVENTOS DO MOUSE
+    # -----------------------------
+
+    mouse_pressed = (
+        current_state == glfw.PRESS and
+        LAST_MOUSE_STATE == glfw.RELEASE
+    )
+
+    mouse_holding = (
+        current_state == glfw.PRESS and
+        LAST_MOUSE_STATE == glfw.PRESS
+    )
+
+    mouse_released = (
+        current_state == glfw.RELEASE and
+        LAST_MOUSE_STATE == glfw.PRESS
+    )
+
+    x, y = get_cursor_pos(window)
+
+    pos = mouse_to_canvas(x, y)
+
+    if pos:
+        row, col = pos
+
+    botao_clicado = None
+    tool_clicado = None
+    thickness_clicado = None
+    color_clicado = None
+
+    # -----------------------------
+    # CLIQUE NOS BOTÕES
+    # -----------------------------
+
+    if mouse_pressed:
 
         for b in buttons:
-            if b.clicked(x,y):
+
+            if b.clicked(x, y):
+
                 action = b.get_action()
+
                 set_current_button(action)
-                botao_clicado = action
+
+                if action in MAIN_BUTTONS:
+                    botao_clicado = action
+                elif action in TOOLS:
+                    tool_clicado = action
+                elif action in THICKNESS:
+                    thickness_clicado = action
+                elif action in COR.keys():
+                    color_clicado = action
 
         if botao_clicado:
             for b in buttons:
-
-                if b.action == botao_clicado:
-                    b.set_clicked()
-                    print(b.action)
-                else:
+                # if b.action == botao_clicado:
+                #     b.set_clicked()
+                #
+                # el
+                if b.action in MAIN_BUTTONS:
                     b.set_not_clicked()
 
-        LAST_MOUSE_CLICK_X = x
-        LAST_MOUSE_CLICK_Y = y
+        if tool_clicado:
+            for b in buttons:
+                if b.action == tool_clicado:
+                    b.set_clicked()
+                elif b.action in TOOLS:
+                    b.set_not_clicked()
 
-        #--- Lidando com o canva
-        pos = mouse_to_canvas(x, y)
-        if pos:
-            handle_button_click(canva)
+        if thickness_clicado:
+            for b in buttons:
+                if b.action == thickness_clicado:
+                    b.set_clicked()
+                elif b.action in THICKNESS:
+                    b.set_not_clicked()
 
-        # print(f"clicou em {x}, {y}")
+        if color_clicado:
+            for b in buttons:
+                if b.action == color_clicado:
+                    b.set_clicked()
+                elif b.action in COLOR_BUTTONS:
+                    b.set_not_clicked()
 
-def handle_button_click(canva):
+    # -----------------------------
+    # FERRAMENTAS
+    # -----------------------------
+
+    if pos:
+
+        handle_button_click(
+            canva,
+            mouse_pressed,
+            mouse_holding,
+            mouse_released,
+            row,
+            col
+        )
+
+    LAST_MOUSE_STATE = current_state
+
+def handle_button_click(
+    canva,
+    mouse_pressed,
+    mouse_holding,
+    mouse_released,
+    row,
+    col
+):
+
     global CURRENT_BUTTON
+    global SHAPE_START
+    global BACKUP_CANVA
+
+    # -------------------------
+    # BOTÕES
+    # -------------------------
 
     if CURRENT_BUTTON == 'novo':
+
         clean_canva(canva)
+
         CURRENT_BUTTON = None
 
     elif CURRENT_BUTTON == 'salvar':
+
         save_canva(canva)
+
         CURRENT_BUTTON = None
 
-    elif CURRENT_TOOL == 'pincel':
-        habilitate_brush(CURRENT_ROW_MOUSE_ON, CURRENT_COL_MOUSE_ON, CURRENT_COLOR, CURRENT_THICKNESS, canva)
-    elif CURRENT_TOOL == 'borracha':
-        habilitate_erase(CURRENT_ROW_MOUSE_ON, CURRENT_COL_MOUSE_ON, COR[BACKGROUND_COLOR], CURRENT_THICKNESS, canva)
-    elif CURRENT_TOOL == 'reta':
-        draw_line(x1, y1, CURRENT_ROW_MOUSE_ON, CURRENT_COL_MOUSE_ON, CURRENT_COLOR, CURRENT_THICKNESS, canva )
+    # -------------------------
+    # PINCEL
+    # -------------------------
 
+    if CURRENT_TOOL == 'pincel':
+
+        if mouse_pressed or mouse_holding:
+
+            habilitate_brush(
+                row,
+                col,
+                CURRENT_COLOR,
+                CURRENT_THICKNESS,
+                canva
+            )
+
+    # -------------------------
+    # BORRACHA
+    # -------------------------
+
+    elif CURRENT_TOOL == 'borracha':
+
+        if mouse_pressed or mouse_holding:
+
+            habilitate_erase(
+                row,
+                col,
+                COR[BACKGROUND_COLOR],
+                CURRENT_THICKNESS,
+                canva
+            )
+
+    # -------------------------
+    # RETA
+    # -------------------------
+
+    elif CURRENT_TOOL == 'reta':
+
+        BACKUP_CANVA, SHAPE_START = draw_reta(canva, col, mouse_holding, mouse_pressed, mouse_released,
+                  row, CURRENT_COLOR, CURRENT_THICKNESS, SHAPE_START, BACKUP_CANVA)
+
+    elif CURRENT_TOOL == 'retangulo':
+
+        BACKUP_CANVA, SHAPE_START = draw_rect(canva, col, mouse_holding, mouse_pressed, mouse_released,
+                                              row, CURRENT_COLOR, CURRENT_THICKNESS, SHAPE_START, BACKUP_CANVA)
 
 
 def get_mouse_on(window):
@@ -141,7 +274,7 @@ def main():
 
     buttons = set_buttons()
     init(BACKGROUND_COLOR)
-    
+
     while not glfw.window_should_close(window):
         glfw.poll_events()
 

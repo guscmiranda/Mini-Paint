@@ -1,4 +1,6 @@
 from OpenGL.GL import *
+
+from tools import draw_rect
 from ui.COLORS import *
 
 
