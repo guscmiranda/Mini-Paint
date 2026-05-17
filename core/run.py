@@ -7,7 +7,7 @@ from core.constants import *
 WIDTH, HEIGHT = 800, 600
 
 CURRENT_BUTTON = None
-CURRENT_COLOR = [0,0,0,0]
+CURRENT_COLOR = [0.0,0.0,0.0,0.0]
 CURRENT_THICKNESS = 1 # 1=fino, 2=médio, 3=GROSSO
 
 CANVAS_WIDTH = 800
@@ -23,6 +23,7 @@ BACKGROUND_COLOR = 'fundo_claro'
 MAIN_BUTTONS = ['salvar', 'novo']
 TOOLS = [ 'pincel', 'borracha', 'reta', 'retangulo', 'retangulo_preenchido','circulo', 'circulo_preenchido', 'balde']
 THICKNESS = ['thickness-0', 'thickness-1', 'thickness-2', 'thickness-4']
+
 CURRENT_TOOL = 'pincel'
 
 canva = np.ones((CANVAS_HEIGHT, CANVAS_WIDTH, 4), dtype=np.float32)
@@ -137,10 +138,6 @@ def handle_click(window, buttons):
 
         if botao_clicado:
             for b in buttons:
-                # if b.action == botao_clicado:
-                #     b.set_clicked()
-                #
-                # el
                 if b.action in MAIN_BUTTONS:
                     b.set_not_clicked()
 
@@ -256,6 +253,22 @@ def handle_button_click(
 
         BACKUP_CANVA, SHAPE_START = draw_rect(canva, col, mouse_holding, mouse_pressed, mouse_released,
                                               row, CURRENT_COLOR, CURRENT_THICKNESS, SHAPE_START, BACKUP_CANVA)
+
+    elif CURRENT_TOOL == 'retangulo_preenchido':
+        BACKUP_CANVA, SHAPE_START = draw_filled_rect(canva, col, mouse_holding, mouse_pressed, mouse_released,
+                                              row, CURRENT_COLOR, CURRENT_THICKNESS, SHAPE_START, BACKUP_CANVA)
+
+    elif CURRENT_TOOL == 'circulo':
+        BACKUP_CANVA, SHAPE_START = draw_circle(canva, col, mouse_holding, mouse_pressed, mouse_released,
+                                                     row, CURRENT_COLOR, CURRENT_THICKNESS, SHAPE_START, BACKUP_CANVA)
+
+    elif CURRENT_TOOL == 'circulo_preenchido':
+        BACKUP_CANVA, SHAPE_START = draw_circle(canva, col, mouse_holding, mouse_pressed, mouse_released,
+                                                row, CURRENT_COLOR, CURRENT_THICKNESS, SHAPE_START, BACKUP_CANVA, False)
+
+
+    elif CURRENT_TOOL == 'balde':
+        paint_bucket3(row, col, CURRENT_COLOR, mouse_pressed, canva)
 
 
 def get_mouse_on(window):

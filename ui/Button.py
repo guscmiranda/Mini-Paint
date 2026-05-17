@@ -41,11 +41,23 @@ class Botao:
         return self.action
 
     def draw(self):
-        if self.isClicked:
-            glColor4f(*COR['azul_escuro'])
-        else:
-            glColor4f(*self.main_color)
 
+
+        if self.isClicked:
+            glColor4f(*COR['verde_oliva'])
+        else:
+            glColor4f(*COR['cinza_claro'])
+
+        borda = 0.007
+        glBegin(GL_QUADS)
+        # Expandimos os limites para fora somando/subtraindo a borda
+        glVertex2f(self.x_up - borda, self.y_up + borda)
+        glVertex2f(self.x_up - borda, self.y_down - borda)
+        glVertex2f(self.x_down + borda, self.y_down - borda)
+        glVertex2f(self.x_down + borda, self.y_up + borda)
+        glEnd()
+
+        glColor4f(*self.main_color)
         glBegin(GL_QUADS)
         glVertex2f(self.x_up, self.y_up)
         glVertex2f(self.x_up, self.y_down)

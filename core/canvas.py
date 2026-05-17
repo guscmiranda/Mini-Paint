@@ -47,7 +47,7 @@ def paint_pixel(row, col, color, thickness, canvas):
 
 def add_thickness(row, col, thickness):
 
-    points = [(row, col)]
+    points = []
 
     radius = int(thickness)
     for dr in range(-radius, radius+1):
