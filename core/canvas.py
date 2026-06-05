@@ -1,19 +1,15 @@
 import numpy as np
 import glfw
 from OpenGL.GL import *
-# from run import canva
-
 
 CANVAS_WIDTH = 800
 CANVAS_HEIGHT = 510
 
-# print("FORMATO do canva ", canva.shape)
-
 def draw_canvas(canvas):
 
-    glRasterPos2f(-1, -1)
+    glRasterPos2f(-1, -1) # Define as coordenadas onde os elementos serão desenhados
 
-    flipped = np.flipud(canvas)
+    flipped = np.flipud(canvas) # Inverte verticalmente
 
     glDrawPixels(
         CANVAS_WIDTH,
@@ -24,9 +20,9 @@ def draw_canvas(canvas):
     )
 
 def mouse_to_canvas(mx, my):
+    ''' Adapta as coordenadas do mouse para o canva '''
 
-    # ignora header
-    if my > 0.7:
+    if my > 0.7: # ignora header
         return None
 
     col = int((mx + 1) / 2 * CANVAS_WIDTH)
@@ -38,7 +34,7 @@ def mouse_to_canvas(mx, my):
     return row, col
 
 def paint_pixel(row, col, color, thickness, canvas):
-
+    ''' Para pintar um pixel de acordo com o thickness selecionado '''
     points = add_thickness(row, col, thickness)
 
     for row, col in points:
@@ -46,7 +42,7 @@ def paint_pixel(row, col, color, thickness, canvas):
             canvas[row, col] = color
 
 def add_thickness(row, col, thickness):
-
+    ''' Retorna o conjunto de pontos que representam um pixel de acordo com o thickness '''
     points = []
 
     radius = int(thickness)

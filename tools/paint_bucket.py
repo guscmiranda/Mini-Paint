@@ -1,113 +1,47 @@
 import numpy as np
-from core.canvas import paint_pixel
+from tools.utils import get_pixel
 from collections import deque
-from ui.COLORS import COR
 
 def paint_bucket(row, col, CURRENT_COLOR, mouse_pressed, canvas):
+    '''
+        Balde de tinta utilizando Flood Fill:
+        Quando o usuário clica em um pixel, todos os pixels 4-conectados
+        que possuem a mesma cor inicial são substituídos pela cor atualmente selecionada.
+    '''
 
-    if not mouse_pressed:
-        return
-
-    original_color = canvas[row][col].copy()
-    print("atualizou")
-
-    if tuple(original_color) == CURRENT_COLOR:
-        return
-
-    queue = deque()
-    queue.append((row, col))
-
-    while queue:
-        r, c = queue.popleft()
-        print(r, c)
-
-        if r < 0 or r >= canvas.shape[0] or c < 0 or c >= canvas.shape[1]:
-            print("entrou no if das bordas")
-            continue
-
-        if not np.array_equal(canvas[r, c], original_color):
-            print(f"cores {canvas[r, c]} e {original_color} são diferentes!")
-            print("entrou das cores")
-            continue
-
-        print("vai pintar: ", r, c)
-        canvas[r, c] = CURRENT_COLOR
-        #paint_pixel(r, c, CURRENT_COLOR, 0, canvas)
-        print("pintou: ", r, c)
-
-        queue.append((r-1, c))
-        queue.append((r+1, c))
-        queue.append((r, c-1))
-        queue.append((r, c+1))
-
-    return
-
-
-import numpy as np
-from collections import deque
-
-def paint_bucket2(row, col, CURRENT_COLOR, mouse_pressed, canvas):
-
-    if not mouse_pressed:
-        return
-
-    original_color = canvas[row, col].copy()
-    new_color = np.array(CURRENT_COLOR, dtype=np.float32)
-
-    # evita loop infinito
-    if np.array_equal(original_color, new_color):
-        return
-
-    queue = deque()
-    queue.append((row, col))
-
-    while queue:
-
-        r, c = queue.popleft()
-
-        # verifica limites
-        if r < 0 or r >= canvas.shape[0] or c < 0 or c >= canvas.shape[1]:
-            continue
-
-        # só pinta pixels da cor original
-        if not np.array_equal(canvas[r, c], original_color):
-            continue
-
-        # pinta
-        canvas[r, c] = new_color
-
-        # vizinhos
-        queue.append((r - 1, c))
-        queue.append((r + 1, c))
-        queue.append((r, c - 1))
-        queue.append((r, c + 1))
-
-
-def paint_bucket3(row, col, CURRENT_COLOR, mouse_pressed, canvas):
-
+    # Executa apenas no instante do clique do mouse evitando repetir o preenchimento em todos os frames
     if not mouse_pressed:
         return
 
     height, width = canvas.shape[:2]
 
-    original_color = canvas[row, col].copy()
+    # Obtem a cor original do pixel clicado.
+    original_color = get_pixel(row, col, canvas)
+
+    # Converte a cor selecionada para o mesmo formato utilizado pelo canvas.
     new_color = np.array(CURRENT_COLOR, dtype=np.float32)
 
+    # Se a região já possui a cor desejada não há nada para preencher.
     if np.array_equal(original_color, new_color):
         return
 
+    # Matriz auxiliar utilizada para evitar que um mesmo pixel seja visitado várias vezes
     visited = np.zeros((height, width), dtype=bool)
 
     queue = deque()
+
+    # Inicia a busca a partir do pixel clicado.
     queue.append((row, col))
     visited[row, col] = True
 
+    # Continua enquanto existirem pixels pendentes na fila.
     while queue:
 
-        r, c = queue.popleft()
+        r, c = queue.popleft() # Pega o próximo pixel
 
-        pixel = canvas[r, c]
+        pixel = canvas[r, c] # A cor atual do pixel
 
+        # Caso o pixel não possua a cor original, ele não pertence à região a ser preenchida.
         if (
             pixel[0] != original_color[0] or
             pixel[1] != original_color[1] or
@@ -116,6 +50,7 @@ def paint_bucket3(row, col, CURRENT_COLOR, mouse_pressed, canvas):
         ):
             continue
 
+        # Substitui a cor do pixel pela nova cor selecionada.
         canvas[r, c] = new_color
 
         # cima

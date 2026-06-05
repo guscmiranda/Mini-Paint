@@ -3,60 +3,44 @@ from core.canvas import paint_pixel, mouse_to_canvas, add_thickness
 import numpy as np
 from ui.COLORS import COR
 
-# def line_bresenham(x1, y1, x2, y2):
-#     pixels = [(x1, y1)]
-#     dx = x2 - x1
-#     dy = y2 - y1
-#     dy2 = 2*dy
-#     dydx2 = dy2 - 2*dx
-#     pant = dy2 - dx
-#
-#     x = x1
-#     y = y1
-#
-#     for i in range(dx):
-#         if pant < 0:
-#             pixels.append((x + 1, y))
-#             pant = pant + dy2
-#         else:
-#             pixels.append((x + 1, y+1))
-#             pant = pant + dydx2
-#             y += 1
-#         x += 1
-#
-#     return pixels
-
 def line_bresenham(x1, y1, x2, y2): # supor: x1=0, y1=0, x2=4, y2=2
-    pixels = []
+    ''' Algoritmo demonstrado em sala para desenhar linhas retas'''
 
-    dx = abs(x2 - x1) #dx=4
-    dy = abs(y2 - y1) #dy=2
+    pixels = [] # lista de pixels a serem pintados
 
-    sx = 1 if x1 < x2 else -1 #sx=1
-    sy = 1 if y1 < y2 else -1 #sy=1
+    # Diferença entre o ponto final e o inicial, para saber qual varia mais
+    dx = abs(x2 - x1)
+    dy = abs(y2 - y1)
 
-    err = dx - dy #err=2
+    # Para saber a inclinação da reta
+    sx = 1 if x1 < x2 else -1
+    sy = 1 if y1 < y2 else -1
+
+    err = dx - dy
 
     while True:
-        pixels.append((x1, y1)) # [(0,0), (1, 0)]
+        pixels.append((x1, y1))
 
         if x1 == x2 and y1 == y2:
             break
 
-        e2 = 2 * err #e2=4
+        e2 = 2 * err # Evitar divisão por 2
 
-        if e2 > -dy: #4>-2 true
-            err -= dy #2-2=0
-            x1 += sx #x1=0+1=1
+        # Escolher qual dos pixels laterais será pintado
+        if e2 > -dy:
+            err -= dy
+            x1 += sx
 
-        if e2 < dx: # 4 < 2 false
+        if e2 < dx:
             err += dx
             y1 += sy
 
     return pixels
 
 def call_bresenham(SHAPE_START, canva, row, col, color,thickness):
+    ''' Pinta os pixels retornados pelo algoritmo do Bresenham'''
     x1, y1 = SHAPE_START
+
     # desenha reta final
     pixels = line_bresenham(x1, y1, row, col)
     for (px, py) in pixels:
@@ -68,31 +52,26 @@ def draw_reta(canva, col, mouse_holding, mouse_pressed, mouse_released, row, CUR
     # -------------------------
     if mouse_pressed:
 
-        SHAPE_START = (row, col)
+        SHAPE_START = (row, col)  # salva estado original
 
-        # salva estado original
-
-        BACKUP_CANVA = canva.copy()
-
+        BACKUP_CANVA = canva.copy() # Para guardar o quadro anterior e o movimento ficar flúido
 
     # -------------------------
     # ARRASTANDO
     # -------------------------
-    elif mouse_holding and SHAPE_START:
+    elif mouse_holding and SHAPE_START: # Apenas se já houve um  clique inicial
         canva[:] = BACKUP_CANVA
         call_bresenham(SHAPE_START, canva, row, col, CURRENT_COLOR, CURRENT_THICKNESS)
-
 
     # -------------------------
     # TERMINOU
     # -------------------------
-    elif mouse_released and SHAPE_START:
+    elif mouse_released and SHAPE_START: # Quando o mouse for levantado e já tiver desenhado a reta
 
         SHAPE_START = None
         BACKUP_CANVA = None
 
     return BACKUP_CANVA, SHAPE_START
-
 
 def draw_rect(canva, col, mouse_holding, mouse_pressed, mouse_released, row, CURRENT_COLOR, CURRENT_THICKNESS, SHAPE_START, BACKUP_CANVA):
     # -------------------------
@@ -100,9 +79,7 @@ def draw_rect(canva, col, mouse_holding, mouse_pressed, mouse_released, row, CUR
     # -------------------------
     if mouse_pressed:
 
-        SHAPE_START = (row, col)
-
-        # salva estado original
+        SHAPE_START = (row, col) # salva estado original
 
         BACKUP_CANVA = canva.copy()
 
@@ -126,7 +103,6 @@ def draw_rect(canva, col, mouse_holding, mouse_pressed, mouse_released, row, CUR
         BACKUP_CANVA = None
 
     return BACKUP_CANVA, SHAPE_START
-
 
 def draw_filled_rect(canva, col, mouse_holding, mouse_pressed, mouse_released, row, CURRENT_COLOR, CURRENT_THICKNESS,
               SHAPE_START, BACKUP_CANVA):
@@ -155,6 +131,7 @@ def draw_filled_rect(canva, col, mouse_holding, mouse_pressed, mouse_released, r
         x1, x2 = (x, row) if x < row else (row, x)
         y1, y2 = (y, col) if y < col else (col, y)
 
+        # Preenche todos os pixels do retângulo com a cor selecionada
         for py in range(y1, y2 + 1):
             for px in range(x1, x2 + 1):
                 paint_pixel(px, py, CURRENT_COLOR, 0, canva)
@@ -176,9 +153,7 @@ def draw_circle(canva, col, mouse_holding, mouse_pressed, mouse_released, row, C
     # -------------------------
     if mouse_pressed:
 
-        SHAPE_START = (row, col)
-
-        # salva estado original
+        SHAPE_START = (row, col) # salva estado original
 
         BACKUP_CANVA = canva.copy()
 
@@ -188,13 +163,14 @@ def draw_circle(canva, col, mouse_holding, mouse_pressed, mouse_released, row, C
     elif mouse_holding and SHAPE_START:
         x, y = SHAPE_START
         canva[:] = BACKUP_CANVA
+
+        # Define o ponto central, é a média do ponto inicial com a posição atual do mouse
         cx = (x + row) // 2
         cy = (y + col) // 2
 
-        r = int(math.hypot(row - cx, col - cy)/2)
+        r = int(math.hypot(row - cx, col - cy)/2) # Define raio
 
         midpointCircle(cx, cy, r, CURRENT_COLOR, CURRENT_THICKNESS, canva, border_only)
-
 
     # -------------------------
     # TERMINOU
@@ -207,20 +183,25 @@ def draw_circle(canva, col, mouse_holding, mouse_pressed, mouse_released, row, C
     return BACKUP_CANVA, SHAPE_START
 
 def midpointCircle(cx, cy, r, color, thickness, canvas, border_only=True):
+    '''
+        Desenha o cículo usando um ponto dentral e seu raio
+        Utiliza a pain_octantes para minimizar os cálculos
+    '''
+
     x = 0
     y = r
     d = 1 - r
 
-    paint_octants(cx, cy, x, y, color, thickness, canvas, border_only)
+    paint_octants(cx, cy, x, y, color, thickness, canvas, border_only) # colore correspondentes por octante
 
-    while y > x:
+    while y > x: # busca pontos até completar o octante (x == y)
         if d < 0:
             d += (2*x) + 3
         else:
             d += 2 * ( x - y ) + 5
             y-=1
         x+=1
-        paint_octants(cx, cy, x, y, color, thickness, canvas, border_only)
+        paint_octants(cx, cy, x, y, color, thickness, canvas, border_only) # colore correspondentes por octante
 
 
 def paint_horizontal_line(x1, x2, y, color, thickness, canvas):
@@ -250,7 +231,7 @@ def paint_octants(cx, cy, x, y, color, thickness, canvas, border_only=True):
 
         for px, py in points:
             paint_pixel(px, py, color, thickness, canvas)
-    else:
+    else:# preencher o círculo
         # linhas horizontais principais
         paint_horizontal_line(cx - x, cx + x, cy + y, color, thickness, canvas)
         paint_horizontal_line(cx - x, cx + x, cy - y, color, thickness, canvas)
